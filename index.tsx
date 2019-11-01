@@ -20,9 +20,9 @@ type State = {
 };
 
 export default class Mounty extends React.Component<Props, State> {
-  defaultProps = {
+  static defaultProps = {
     active: false,
-    timeout: 500
+    timeout: 0
   };
 
   state = {
