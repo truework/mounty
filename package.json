@@ -1,6 +1,6 @@
 {
   "name": "mounty",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Tiny asynchronous action timer.",
   "source": "index.tsx",
   "main": "dist/mounty.js",
