@@ -1,6 +1,6 @@
 # mounty
 
-A tiny React mount/unmount transition manager with a familiar API. **~500bytes
+A tiny React transition manager with mount/unmount support and a familiar API. **~500bytes
 gzipped.**
 
 ### Install
@@ -22,12 +22,12 @@ function App() {
     <>
       <button onClick={() => setActive(!active)}>Click to Pin</button>
 
-      <Mounty in={active} timeout={400}>
-        {({ mounted, active, entering, entered, exiting, exited }) => {
+      <Mounty in={active} timeout={400} shouldUnmount={true}>
+        {({ active, ready, entering, entered, exiting, exited }) => {
           return (
             <div
               style={{
-                opacity: active ? 1 : 0,
+                opacity: ready ? 1 : 0,
                 transition: "opacity 400ms"
               }}
             >

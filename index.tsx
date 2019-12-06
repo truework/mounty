@@ -1,33 +1,35 @@
 import * as React from "react";
 
 type Props = {
-  children: (props: State) => React.ReactElement;
-  in: boolean;
-  timeout: number;
-  onEntering: () => void;
-  onEntered: () => void;
-  onExiting: () => void;
-  onExited: () => void;
+  children: (props: MountyState) => React.ReactElement;
+  in?: boolean;
+  timeout?: number;
+  shouldUnmount?: boolean;
+  onEntering?: () => void;
+  onEntered?: () => void;
+  onExiting?: () => void;
+  onExited?: () => void;
 };
 
-type State = {
-  mounted: boolean;
+export type MountyState = {
   active: boolean;
+  ready: boolean;
   entering: boolean;
   entered: boolean;
   exiting: boolean;
   exited: boolean;
 };
 
-export default class Mounty extends React.Component<Props, State> {
+export default class Mounty extends React.Component<Props, MountyState> {
   static defaultProps = {
-    active: false,
-    timeout: 0
+    ready: false,
+    timeout: 0,
+    shouldUnmount: false,
   };
 
   state = {
-    mounted: this.props.in,
-    active: false,
+    active: this.props.in,
+    ready: false,
     entering: false,
     entered: false,
     exiting: false,
@@ -35,18 +37,18 @@ export default class Mounty extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (this.state.mounted) this.enter();
+    if (this.state.active) this.enter();
   }
 
   componentDidUpdate() {
-    const { mounted, active, entering, exiting } = this.state;
+    const { active, ready, entering, exiting } = this.state;
     const { in: isIn } = this.props;
 
     if (entering || exiting) return;
 
-    if (!isIn && active && mounted) {
+    if (!isIn && ready && active) {
       this.exit();
-    } else if (isIn && !active && !mounted) {
+    } else if (isIn && !ready && !active) {
       this.enter();
     }
   }
@@ -56,14 +58,15 @@ export default class Mounty extends React.Component<Props, State> {
 
     this.setState(
       {
-        mounted: true,
-        entered: false
+        active: true,
+        entered: false,
+        exited: false,
       },
       () => {
         setTimeout(() => {
           this.setState(
             {
-              active: true,
+              ready: true,
               entering: true
             },
             () => {
@@ -92,9 +95,10 @@ export default class Mounty extends React.Component<Props, State> {
 
     this.setState(
       {
-        active: false,
+        ready: false,
         exiting: true,
-        exited: false
+        exited: false,
+        entered: false,
       },
       () => {
         onExiting && onExiting();
@@ -102,7 +106,7 @@ export default class Mounty extends React.Component<Props, State> {
         setTimeout(() => {
           this.setState(
             {
-              mounted: false,
+              active: false,
               exiting: false,
               exited: true
             },
@@ -116,7 +120,8 @@ export default class Mounty extends React.Component<Props, State> {
   }
 
   render() {
-    const { mounted } = this.state;
-    return mounted && this.props.children(this.state);
+    const { active } = this.state;
+    const { shouldUnmount } = this.props;
+    return !active && shouldUnmount ? null : this.props.children(this.state);
   }
 }
