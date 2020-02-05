@@ -1,6 +1,6 @@
 {
   "name": "mounty",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A tiny React transition manager with mount/unmount support and a familiar API.",
   "source": "index.tsx",
   "main": "dist/mounty.js",
