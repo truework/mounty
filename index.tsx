@@ -1,8 +1,8 @@
 import * as React from "react";
 
-type Props = {
-  children: (props: MountyState) => React.ReactElement;
-  in?: boolean;
+export type MountyProps = {
+  children: (props: MountyState) => React.ReactNode | React.ReactNode[];
+  in: boolean;
   timeout?: number;
   shouldUnmount?: boolean;
   onEntering?: () => void;
@@ -20,7 +20,7 @@ export type MountyState = {
   exited: boolean;
 };
 
-export default class Mounty extends React.Component<Props, MountyState> {
+export default class Mounty extends React.Component<MountyProps, MountyState> {
   static defaultProps = {
     ready: false,
     timeout: 0,
