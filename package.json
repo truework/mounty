@@ -1,7 +1,7 @@
 {
   "name": "mounty",
   "version": "0.1.0",
-  "description": "Tiny asynchronous action timer.",
+  "description": "A tiny React transition manager with mount/unmount support and a familiar API.",
   "source": "index.tsx",
   "main": "dist/mounty.js",
   "module": "dist/mounty.es.js",
@@ -16,6 +16,13 @@
     "publish": "npm publish",
     "test": "jest test.tsx"
   },
+  "keywords": [
+    "react",
+    "react transition group",
+    "react transition",
+    "toggle",
+    "animation"
+  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/estrattonbailey/mounty.git"
