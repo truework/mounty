@@ -42,7 +42,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "jest": "^25.1.0",
-    "microbundle": "^0.11.0",
+    "microbundle": "^0.12.0-next.8",
     "ts-jest": "^25.2.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
