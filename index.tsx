@@ -20,7 +20,7 @@ export type MountyState = {
   exited: boolean;
 };
 
-export default class Mounty extends React.Component<MountyProps, MountyState> {
+export class Mounty extends React.Component<MountyProps, MountyState> {
   static defaultProps = {
     ready: false,
     timeout: 0,
