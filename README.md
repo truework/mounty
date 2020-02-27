@@ -13,7 +13,7 @@ npm i mounty --save
 The code below is [demoed here](https://codesandbox.io/s/mounty-demo-4zgwp).
 
 ```javascript
-import Mounty from "mounty";
+import { Mounty } from "mounty";
 
 function App() {
   const [active, setActive] = React.useState(false);
