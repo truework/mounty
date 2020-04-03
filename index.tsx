@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export type MountyProps = {
-  children: (props: MountyState) => React.ReactNode | React.ReactNode[];
+  children(props: MountyState): JSX.Element;
   in: boolean;
   timeout?: number;
   shouldUnmount?: boolean;
@@ -20,108 +20,72 @@ export type MountyState = {
   exited: boolean;
 };
 
-export class Mounty extends React.Component<MountyProps, MountyState> {
-  static defaultProps = {
-    ready: false,
-    timeout: 0,
-    shouldUnmount: false,
-  };
-
-  state = {
-    active: this.props.in,
-    ready: false,
+export function Mounty({
+  children,
+  in: isIn,
+  timeout,
+  shouldUnmount,
+  ...events
+}: MountyProps) {
+  const [state, setState] = React.useState<MountyState>({
+    active: isIn,
+    ready: isIn,
     entering: false,
-    entered: false,
+    entered: isIn,
     exiting: false,
     exited: false
-  };
+  });
 
-  componentDidMount() {
-    if (this.state.active) this.enter();
-  }
-
-  componentDidUpdate() {
-    const { active, ready, entering, exiting } = this.state;
-    const { in: isIn } = this.props;
-
-    if (isIn === active || entering || exiting) return;
-
-    if (!isIn && active) {
-      this.exit();
-    } else if (isIn && !active) {
-      this.enter();
-    }
-  }
-
-  enter() {
-    const { timeout, onEntering, onEntered } = this.props;
-
-    this.setState(
-      {
+  React.useEffect(() => {
+    if (isIn && !state.active) {
+      setState(prev => ({
+        ...prev,
         active: true,
         entered: false,
-        exited: false,
-      },
-      () => {
-        setTimeout(() => {
-          this.setState(
-            {
-              ready: true,
-              entering: true
-            },
-            () => {
-              onEntering && onEntering();
+        exited: false
+      }));
 
-              setTimeout(() => {
-                this.setState(
-                  {
-                    entering: false,
-                    entered: true
-                  },
-                  () => {
-                    onEntered && onEntered();
-                  }
-                );
-              }, timeout);
-            }
-          );
-        }, 10);
-      }
-    );
-  }
+      setTimeout(() => {
+        setState(prev => ({
+          ...prev,
+          ready: true,
+          entering: true,
+        }));
 
-  exit() {
-    const { timeout, onExiting, onExited } = this.props;
-
-    this.setState(
-      {
-        ready: false,
-        exiting: true,
-        exited: false,
-        entered: false,
-      },
-      () => {
-        onExiting && onExiting();
+        if (events.onEntering) events.onEntering();
 
         setTimeout(() => {
-          this.setState(
-            {
-              active: false,
-              exiting: false,
-              exited: true
-            },
-            () => {
-              onExited && onExited();
-            }
-          );
+          setState(prev => ({
+            ...prev,
+            entering: false,
+            entered: true,
+          }));
+
+          if (events.onEntered) events.onEntered();
         }, timeout);
-      }
-    );
-  }
+      }, 0);
+    } else if (!isIn && state.active) {
+      setState(prev => ({
+        ...prev,
+        exiting: true,
+        ready: false,
+        entered: false,
+      }));
 
-  render() {
-    const { active } = this.state;
-    const { shouldUnmount } = this.props;
-    return !active && shouldUnmount ? null : this.props.children(this.state);
-  }
+      if (events.onExiting) events.onExiting();
+
+      setTimeout(() => {
+        setState(prev => ({
+          ...prev,
+          active: false,
+          exiting: false,
+          exited: true,
+        }));
+
+        if (events.onExited) events.onExited();
+      }, timeout);
+    }
+  }, [isIn]);
+
+  return !state.active && shouldUnmount ? null : children(state);
 }

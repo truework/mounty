@@ -2,7 +2,7 @@ import * as React from "react";
 import { configure, mount } from "enzyme";
 import * as Adapter from "enzyme-adapter-react-16";
 
-import { Mounty, MountyProps, MountyState } from "./index";
+import { Mounty, MountyProps } from "./index";
 
 configure({ adapter: new Adapter() });
 
@@ -11,7 +11,7 @@ const wait = async (ms: number) => new Promise(r => setTimeout(r, ms));
 function Base(props: Omit<MountyProps, "children">) {
   return (
     <Mounty {...props}>
-      {(state: MountyState) => <div>{JSON.stringify(state)}</div>}
+      {state => <div>{JSON.stringify(state)}</div>}
     </Mounty>
   );
 }

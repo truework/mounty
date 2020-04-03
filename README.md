@@ -1,7 +1,6 @@
-# mounty
+# mounty ![npm](https://img.shields.io/npm/v/mounty) [![](https://badgen.net/bundlephobia/minzip/mounty)](https://bundlephobia.com/result?p=mounty)
 
-A tiny React transition manager with mount/unmount support and a familiar API. **~500bytes
-gzipped.**
+A tiny React transition manager with mount/unmount support and a familiar API.
 
 ### Install
 
