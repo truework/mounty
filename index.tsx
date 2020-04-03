@@ -44,11 +44,11 @@ export class Mounty extends React.Component<MountyProps, MountyState> {
     const { active, ready, entering, exiting } = this.state;
     const { in: isIn } = this.props;
 
-    if (entering || exiting) return;
+    if (isIn === active || entering || exiting) return;
 
-    if (!isIn && ready && active) {
+    if (!isIn && active) {
       this.exit();
-    } else if (isIn && !ready && !active) {
+    } else if (isIn && !active) {
       this.enter();
     }
   }
