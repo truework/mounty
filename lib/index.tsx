@@ -45,25 +45,27 @@ export function Mounty({
         exited: false,
       }));
 
-      setTimeout(() => {
-        setState((prev) => ({
-          ...prev,
-          ready: true,
-          entering: true,
-        }));
-
-        if (events.onEntering) events.onEntering();
-
-        setTimeout(() => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
           setState((prev) => ({
             ...prev,
-            entering: false,
-            entered: true,
+            ready: true,
+            entering: true,
           }));
 
-          if (events.onEntered) events.onEntered();
-        }, timeout);
-      }, 50);
+          if (events.onEntering) events.onEntering();
+
+          setTimeout(() => {
+            setState((prev) => ({
+              ...prev,
+              entering: false,
+              entered: true,
+            }));
+
+            if (events.onEntered) events.onEntered();
+          }, timeout);
+        });
+      });
     } else if (!isIn && state.active) {
       setState((prev) => ({
         ...prev,
