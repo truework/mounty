@@ -9,6 +9,7 @@ npm i mounty --save
 ```
 
 # Usage
+
 The code below is [demoed here](https://codesandbox.io/s/mounty-demo-4zgwp).
 
 ```javascript
@@ -27,7 +28,7 @@ function App() {
             <div
               style={{
                 opacity: ready ? 1 : 0,
-                transition: "opacity 400ms"
+                transition: "opacity 400ms",
               }}
             >
               I'm automatically mounted & unmounted, and I fade in and out while
