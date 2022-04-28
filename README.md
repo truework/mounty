@@ -22,7 +22,7 @@ function App() {
     <>
       <button onClick={() => setActive(!active)}>Click to Pin</button>
 
-      <Mounty in={active} timeout={400} shouldUnmount={true}>
+      <Mounty in={active} timeout={400} shouldUnmount>
         {({ active, ready, entering, entered, exiting, exited }) => {
           return (
             <div
