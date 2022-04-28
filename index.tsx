@@ -63,7 +63,7 @@ export function Mounty({
 
           if (events.onEntered) events.onEntered();
         }, timeout);
-      }, 0);
+      }, 50);
     } else if (!isIn && state.active) {
       setState(prev => ({
         ...prev,
