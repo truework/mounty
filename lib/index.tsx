@@ -33,20 +33,20 @@ export function Mounty({
     entering: false,
     entered: isIn,
     exiting: false,
-    exited: false
+    exited: false,
   });
 
   React.useEffect(() => {
     if (isIn && !state.active) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         active: true,
         entered: false,
-        exited: false
+        exited: false,
       }));
 
       setTimeout(() => {
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           ready: true,
           entering: true,
@@ -55,7 +55,7 @@ export function Mounty({
         if (events.onEntering) events.onEntering();
 
         setTimeout(() => {
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
             entering: false,
             entered: true,
@@ -63,9 +63,9 @@ export function Mounty({
 
           if (events.onEntered) events.onEntered();
         }, timeout);
-      }, 0);
+      }, 50);
     } else if (!isIn && state.active) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         exiting: true,
         ready: false,
@@ -75,7 +75,7 @@ export function Mounty({
       if (events.onExiting) events.onExiting();
 
       setTimeout(() => {
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           active: false,
           exiting: false,
