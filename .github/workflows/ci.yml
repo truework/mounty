@@ -17,8 +17,6 @@ jobs:
         with:
           node-version: 16
 
-      - name: Log NPM version
-        run: npm -v
       - name: NPM ci
         run: npm ci
 

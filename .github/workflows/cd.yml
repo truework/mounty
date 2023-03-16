@@ -18,10 +18,7 @@ jobs:
         with:
           node-version: 16
 
-      # pnpm stuff
-      - name: Log NPM version
-        run: npm -v
-      - name: npm ci
+      - name: NPM ci
         run: npm ci
 
       # build
