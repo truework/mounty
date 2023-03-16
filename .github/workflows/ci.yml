@@ -5,40 +5,35 @@ on:
     branches:
       - "**"
 
-env:
-  PNPM_CACHE_FOLDER: .pnpm-store
-
 jobs:
   build:
     name: CI
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
 
       # pnpm stuff
-      - name: pnpm — install
-        run: npm i pnpm@latest -g
-      - name: pnpm - config
-        run: pnpm config set store-dir $PNPM_CACHE_FOLDER
-      - name: pnpm - install
-        run: pnpm install
+      - name: Log NPM version
+        run: npm -v
+      - name: NPM ci
+        run: npm ci
 
       # build
       - name: lint
-        run: pnpm lint
+        run: npm run lint
       - name: build
-        run: pnpm build
+        run: npm run build
       - name: test
-        run: pnpm t
+        run: npm test
 
       # release
       - name: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.TRUEWORK_TEAM_NPM_TOKEN }}
-        run: pnpx semantic-release -d
+        run: npx semantic-release -d
